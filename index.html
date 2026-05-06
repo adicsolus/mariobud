@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MarioBud — fundamenty, domy pod klucz, gładzie maszynowe. Budujemy konkret. Czasem dosłownie.">
+  <meta property="og:title" content="MarioBud — Budujemy konkret. Czasem dosłownie.">
+  <meta property="og:description" content="Fundamenty, domy pod klucz, gładzie maszynowe. W terminie, w budżecie, bez ściemy.">
+  <meta property="og:type" content="website">
+  <title>MarioBud — Budujemy konkret</title>
+
+  <link rel="icon" type="image/svg+xml" href="assets/logo-mark.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- ======== NAV ======== -->
+  <nav class="nav" id="nav">
+    <a href="#top" class="nav-logo" aria-label="MarioBud — strona główna">
+      <img src="assets/logo.svg" alt="MarioBud" height="44">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#uslugi">Usługi</a></li>
+      <li><a href="#realizacje">Realizacje</a></li>
+      <li><a href="#proces">Proces</a></li>
+      <li><a href="#mapa">Mapa</a></li>
+      <li><a href="#kontakt" class="nav-cta">Bezpłatna wycena</a></li>
+    </ul>
+    <button class="nav-burger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ======== HERO ======== -->
+  <header class="hero" id="top">
+    <div class="hero-bg">
+      <div class="hero-sky"></div>
+      <div class="hero-clouds" data-parallax="0.15">
+        <span class="cloud cloud-a"></span>
+        <span class="cloud cloud-b"></span>
+        <span class="cloud cloud-c"></span>
+      </div>
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-tape" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-inner">
+      <p class="hero-eyebrow">
+        <span class="dot"></span> Budownictwo · od fundamentów po klucze
+      </p>
+      <h1 class="hero-title">
+        <span class="line">Budujemy</span>
+        <span class="line"><em data-swap="beton">konkret</em>.</span>
+        <span class="line line-small">Czasem dosłownie.</span>
+      </h1>
+      <p class="hero-sub">
+        Fundamenty, domy pod klucz, gładzie maszynowe.<br>
+        W terminie, w budżecie, bez ściemy — i bez "no panie, to się nie da".
+      </p>
+      <div class="hero-actions">
+        <a href="#kontakt" class="btn btn-primary magnetic">
+          <span>Bezpłatna wycena</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#realizacje" class="btn btn-ghost">Zobacz realizacje</a>
+      </div>
+
+      <div class="hero-trust">
+        <div><strong>247</strong><span>zrealizowanych projektów</span></div>
+        <div><strong>18 lat</strong><span>doświadczenia</span></div>
+        <div><strong>5,0</strong><span>średnia opinii ★★★★★</span></div>
+      </div>
+    </div>
+
+    <a href="#build" class="hero-scroll" aria-label="Przewiń niżej">
+      <span>zbuduj z nami dom</span>
+      <svg width="18" height="32" viewBox="0 0 18 32" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2v26M2 22l7 7 7-7"/></svg>
+    </a>
+  </header>
+
+  <!-- ======== BUILD SEQUENCE (pinned scroll) ======== -->
+  <section class="build" id="build">
+    <div class="build-pin">
+      <div class="build-stage">
+        <object class="build-svg" id="build-svg" type="image/svg+xml" data="assets/house-build.svg" aria-label="Animacja budowy domu"></object>
+      </div>
+      <aside class="build-steps">
+        <p class="build-kicker">Jak to robimy</p>
+        <ol>
+          <li data-step="0">
+            <h3>Fundament</h3>
+            <p>Bo charakter to za mało. Ławy, stopy, izolacja — wszystko pod sznurek.</p>
+          </li>
+          <li data-step="1">
+            <h3>Mury</h3>
+            <p>Wytrzymują wszystko: wiatr, mróz, teściową w niedzielę.</p>
+          </li>
+          <li data-step="2">
+            <h3>Dach</h3>
+            <p>Żeby dobre pomysły nie uciekły. Więźba, pokrycie, obróbki blacharskie.</p>
+          </li>
+          <li data-step="3">
+            <h3>Wykończenie</h3>
+            <p>Równiej niż Twoja umowa kredytowa. Gładzie, malowanie, instalacje.</p>
+          </li>
+        </ol>
+        <div class="build-progress" aria-hidden="true">
+          <span class="build-progress-fill"></span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ======== USŁUGI (horizontal scroll) ======== -->
+  <section class="services" id="uslugi">
+    <div class="services-head">
+      <p class="kicker">Usługi</p>
+      <h2>Cztery rzeczy, w których jesteśmy nudno dobrzy.</h2>
+      <p class="lead">Bez WOW-efektów na papierze. WOW-efekt zostawiamy na odbiór kluczy.</p>
+    </div>
+
+    <div class="services-track" id="services-track">
+      <article class="service-card">
+        <div class="service-img" style="background-image:url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=900&q=70');"></div>
+        <div class="service-body">
+          <p class="service-num">01</p>
+          <h3>Fundamenty</h3>
+          <p class="service-tag">"Solidnie, jak charakter teścia. Tylko bez gderania."</p>
+          <ul>
+            <li>Wykop + ławy fundamentowe</li>
+            <li>Izolacja przeciwwilgociowa</li>
+            <li>Płyta fundamentowa / strop</li>
+            <li>Geodezyjna inwentaryzacja</li>
+          </ul>
+          <p class="service-price">od <strong>320 zł / m²</strong></p>
+        </div>
+      </article>
+
+      <article class="service-card">
+        <div class="service-img" style="background-image:url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&q=70');"></div>
+        <div class="service-body">
+          <p class="service-num">02</p>
+          <h3>Domy pod klucz</h3>
+          <p class="service-tag">"Wprowadzasz się z walizką. Resztą zajmiemy się my."</p>
+          <ul>
+            <li>Stan surowy zamknięty</li>
+            <li>Instalacje + wykończenie</li>
+            <li>Koordynacja podwykonawców</li>
+            <li>Odbiór końcowy + dokumentacja</li>
+          </ul>
+          <p class="service-price">od <strong>4 800 zł / m²</strong></p>
+        </div>
+      </article>
+
+      <article class="service-card">
+        <div class="service-img" style="background-image:url('https://images.unsplash.com/photo-1542621334-a254cf47733d?auto=format&fit=crop&w=900&q=70');"></div>
+        <div class="service-body">
+          <p class="service-num">03</p>
+          <h3>Gładzie maszynowe</h3>
+          <p class="service-tag">"Tak gładko, że ściana sama prosi o zdjęcie."</p>
+          <ul>
+            <li>Tynk gipsowy / cementowo-wapienny</li>
+            <li>Aplikacja agregatem</li>
+            <li>Ekipa 4-osobowa, ~80 m² / dzień</li>
+            <li>Gwarancja równości pod gładź ±2 mm</li>
+          </ul>
+          <p class="service-price">od <strong>32 zł / m²</strong></p>
+        </div>
+      </article>
+
+      <article class="service-card">
+        <div class="service-img" style="background-image:url('https://images.unsplash.com/photo-1517824806704-9040b037703b?auto=format&fit=crop&w=900&q=70');"></div>
+        <div class="service-body">
+          <p class="service-num">04</p>
+          <h3>Stany surowe i deweloperskie</h3>
+          <p class="service-tag">"Wszystko, czego potrzeba. Plus parę rzeczy ekstra."</p>
+          <ul>
+            <li>Ściany nośne i działowe</li>
+            <li>Stropy + więźba dachowa</li>
+            <li>Okna, drzwi, instalacje rough-in</li>
+            <li>Tynki, posadzki, podłoża</li>
+          </ul>
+          <p class="service-price">indywidualnie</p>
+        </div>
+      </article>
+
+      <div class="service-end">
+        <p>Nie widzisz tego, czego szukasz?</p>
+        <a href="#kontakt" class="btn btn-primary">Pogadajmy</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== LICZBY ======== -->
+  <section class="stats">
+    <div class="stat" data-target="247" data-suffix="">
+      <strong class="stat-num">0</strong>
+      <span>zrealizowanych projektów</span>
+    </div>
+    <div class="stat" data-target="18" data-suffix=" lat">
+      <strong class="stat-num">0</strong>
+      <span>doświadczenia w branży</span>
+    </div>
+    <div class="stat" data-target="0" data-suffix="">
+      <strong class="stat-num">0</strong>
+      <span>poślizgów terminowych<br><small>*okej, raz, ale wtedy padał deszcz</small></span>
+    </div>
+    <div class="stat" data-target="127" data-suffix=" km">
+      <strong class="stat-num">0</strong>
+      <span>wylanego betonu<br><small>tyle, że pewnie obeszliby Państwo z nim Polskę dookoła</small></span>
+    </div>
+  </section>
+
+  <!-- ======== PROCES (timeline) ======== -->
+  <section class="process" id="proces">
+    <div class="process-head">
+      <p class="kicker">Proces</p>
+      <h2>Od telefonu do kluczy w ręku.</h2>
+      <p class="lead">Pięć kroków. Bez zaskoczeń. Bez "ojej, panie kierowniku, ale tu nam jeszcze cementu zabrakło".</p>
+    </div>
+
+    <ol class="timeline">
+      <li class="t-step">
+        <span class="t-num">01</span>
+        <div class="t-body">
+          <h3>Wycena</h3>
+          <p>Spotkanie na działce lub online. Wyciągamy notes, rozmawiamy konkretnie. Wycena w 5 dni roboczych — żadnych "policzymy i się odezwiemy".</p>
+        </div>
+      </li>
+      <li class="t-step">
+        <span class="t-num">02</span>
+        <div class="t-body">
+          <h3>Projekt i kosztorys</h3>
+          <p>Każda pozycja rozpisana. Każdy worek cementu zaplanowany. Jeśli coś można zrobić taniej bez utraty jakości — mówimy o tym pierwsi.</p>
+        </div>
+      </li>
+      <li class="t-step">
+        <span class="t-num">03</span>
+        <div class="t-body">
+          <h3>Pozwolenia</h3>
+          <p>Pomagamy z urzędową papierologią. Wiemy, kogo zapytać, gdzie pójść i którą herbatę zaproponować pani inspektor.</p>
+        </div>
+      </li>
+      <li class="t-step">
+        <span class="t-num">04</span>
+        <div class="t-body">
+          <h3>Budowa</h3>
+          <p>Dziennik budowy, zdjęcia z placu w cotygodniowym raporcie, harmonogram trzymający się terminów. Tak, naprawdę.</p>
+        </div>
+      </li>
+      <li class="t-step">
+        <span class="t-num">05</span>
+        <div class="t-body">
+          <h3>Odbiór i gwarancja</h3>
+          <p>Klucze, dokumentacja, lista wszystkich materiałów. Pięć lat gwarancji na konstrukcję — i numer telefonu, który naprawdę odbiera.</p>
+        </div>
+      </li>
+      <span class="timeline-line" aria-hidden="true"></span>
+    </ol>
+  </section>
+
+  <!-- ======== REALIZACJE ======== -->
+  <section class="gallery" id="realizacje">
+    <div class="gallery-head">
+      <p class="kicker">Realizacje</p>
+      <h2>Trochę naszych domów. Wszystkie nadal stoją.</h2>
+    </div>
+
+    <div class="gallery-grid">
+      <a class="g-card g-tall" href="#" data-tilt>
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=70" alt="">
+        <div class="g-meta">
+          <p class="g-loc">Warszawa · Wilanów</p>
+          <h4>Dom pod klucz — 165 m²</h4>
+          <p class="g-tag">Teściowa nadal się gubi w korytarzu.</p>
+        </div>
+      </a>
+      <a class="g-card" href="#" data-tilt>
+        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=900&q=70" alt="">
+        <div class="g-meta">
+          <p class="g-loc">Kraków · Bronowice</p>
+          <h4>Apartament — 380 m² gładzi</h4>
+          <p class="g-tag">Gładzie idealne. Ściany niezdecydowane.</p>
+        </div>
+      </a>
+      <a class="g-card" href="#" data-tilt>
+        <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=900&q=70" alt="">
+        <div class="g-meta">
+          <p class="g-loc">Mazury · Mikołajki</p>
+          <h4>Fundament + stan surowy</h4>
+          <p class="g-tag">Przetrwa zimę i sąsiada.</p>
+        </div>
+      </a>
+      <a class="g-card g-wide" href="#" data-tilt>
+        <img src="https://images.unsplash.com/photo-1519302959554-a75be0afc82a?auto=format&fit=crop&w=1400&q=70" alt="">
+        <div class="g-meta">
+          <p class="g-loc">Wrocław · Krzyki</p>
+          <h4>Bliźniak deweloperski</h4>
+          <p class="g-tag">Dwie rodziny, jedna ściana, zero kłótni.</p>
+        </div>
+      </a>
+      <a class="g-card" href="#" data-tilt>
+        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=900&q=70" alt="">
+        <div class="g-meta">
+          <p class="g-loc">Poznań · Grunwald</p>
+          <h4>Hala produkcyjna 1 200 m²</h4>
+          <p class="g-tag">Beton tak gładki, że wózki widłowe płaczą.</p>
+        </div>
+      </a>
+      <a class="g-card g-tall" href="#" data-tilt>
+        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=70" alt="">
+        <div class="g-meta">
+          <p class="g-loc">Gdańsk · Oliwa</p>
+          <h4>Modernizacja kamienicy</h4>
+          <p class="g-tag">Kamienica z duszą. Po naszej robocie też z prądem.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ======== MAPA ======== -->
+  <section class="map" id="mapa">
+    <div class="map-head">
+      <p class="kicker">Gdzie pracujemy</p>
+      <h2>Cała Polska. <em>Plus okolice.</em></h2>
+      <p class="lead">Najedź na pin — zobaczysz co tam zbudowaliśmy. Jeden pin to easter-egg. Powodzenia.</p>
+    </div>
+    <div class="map-wrap">
+      <object class="map-svg" id="poland-map" type="image/svg+xml" data="assets/poland-map.svg" aria-label="Mapa realizacji"></object>
+      <div class="map-tooltip" id="map-tooltip" role="tooltip" aria-hidden="true">
+        <strong></strong><span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== OPINIE ======== -->
+  <section class="reviews">
+    <div class="reviews-head">
+      <p class="kicker">Opinie</p>
+      <h2>Co mówią o nas klienci. (Naprawdę.)</h2>
+    </div>
+    <div class="marquee">
+      <div class="marquee-track">
+        <article class="review">
+          <div class="stars">★★★★★</div>
+          <p>"Mariusz przyjechał na czas. Pierwszy raz w życiu widzę takiego budowlańca."</p>
+          <footer>— Anna K., Warszawa</footer>
+        </article>
+        <article class="review">
+          <div class="stars">★★★★★</div>
+          <p>"Postawili dom szybciej niż żona urządziła kuchnię. Stoi do dziś. Małżeństwo też."</p>
+          <footer>— Tomasz W., Kraków</footer>
+        </article>
+        <article class="review">
+          <div class="stars">★★★★★</div>
+          <p>"Gładzie tak równe, że laser geodezyjny się obraził."</p>
+          <footer>— Marek S., Wrocław</footer>
+        </article>
+        <article class="review">
+          <div class="stars">★★★★★</div>
+          <p>"Trzy ekipy odmówiły. MarioBud zrobił. W terminie. Bez śmiercionośnego dopłatka."</p>
+          <footer>— Iwona B., Gdańsk</footer>
+        </article>
+        <article class="review">
+          <div class="stars">★★★★★</div>
+          <p>"Fundament wylany jak ze szkoły. Plac uprzątnięty jak po teściowej."</p>
+          <footer>— Krzysztof L., Poznań</footer>
+        </article>
+        <article class="review">
+          <div class="stars">★★★★★</div>
+          <p>"Polecam. Ale jak chcecie szybko, to zarezerwujcie pół roku wcześniej — ludzie wiedzą."</p>
+          <footer>— Magdalena P., Lublin</footer>
+        </article>
+        <!-- duplikat dla seamless loop -->
+        <article class="review" aria-hidden="true">
+          <div class="stars">★★★★★</div>
+          <p>"Mariusz przyjechał na czas. Pierwszy raz w życiu widzę takiego budowlańca."</p>
+          <footer>— Anna K., Warszawa</footer>
+        </article>
+        <article class="review" aria-hidden="true">
+          <div class="stars">★★★★★</div>
+          <p>"Postawili dom szybciej niż żona urządziła kuchnię. Stoi do dziś. Małżeństwo też."</p>
+          <footer>— Tomasz W., Kraków</footer>
+        </article>
+        <article class="review" aria-hidden="true">
+          <div class="stars">★★★★★</div>
+          <p>"Gładzie tak równe, że laser geodezyjny się obraził."</p>
+          <footer>— Marek S., Wrocław</footer>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== CTA / KONTAKT ======== -->
+  <section class="cta" id="kontakt">
+    <div class="cta-bg" aria-hidden="true"></div>
+    <div class="cta-inner">
+      <div class="cta-text">
+        <p class="kicker kicker-light">Wycena</p>
+        <h2>Masz działkę?<br><em>My mamy ekipę.</em></h2>
+        <p class="lead">Wypełnij formularz albo zadzwoń. Oddzwaniamy w 24h.<br>Bez ściemy, bez nachalnego sprzedawcy, bez "akcji promocyjnej do końca tygodnia".</p>
+        <ul class="cta-contacts">
+          <li>📞 <a href="tel:+48600000000">+48 600 000 000</a></li>
+          <li>✉️ <a href="mailto:biuro@mariobud.pl">biuro@mariobud.pl</a></li>
+          <li>📍 ul. Cementowa 1, 00-000 Warszawa</li>
+        </ul>
+      </div>
+
+      <form class="cta-form" id="cta-form" action="mailto:biuro@mariobud.pl" method="post" enctype="text/plain">
+        <div class="field">
+          <input type="text" id="f-name" name="imie" required>
+          <label for="f-name">Imię i nazwisko</label>
+        </div>
+        <div class="field">
+          <input type="tel" id="f-phone" name="telefon" required>
+          <label for="f-phone">Telefon</label>
+        </div>
+        <div class="field">
+          <input type="text" id="f-loc" name="lokalizacja">
+          <label for="f-loc">Lokalizacja działki</label>
+        </div>
+        <div class="field field-select">
+          <select id="f-type" name="zakres" required>
+            <option value="" disabled selected hidden></option>
+            <option>Fundamenty</option>
+            <option>Dom pod klucz</option>
+            <option>Gładzie maszynowe</option>
+            <option>Stan surowy / deweloperski</option>
+            <option>Coś innego</option>
+          </select>
+          <label for="f-type">Zakres prac</label>
+        </div>
+        <div class="field field-textarea">
+          <textarea id="f-msg" name="wiadomosc" rows="4"></textarea>
+          <label for="f-msg">Krótko o projekcie (opcjonalnie)</label>
+        </div>
+        <button type="submit" class="btn btn-primary magnetic">
+          <span>Wyślij i zaczynamy</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+        <p class="form-foot">Oddzwaniamy w 24h. Bez nachalnego sprzedawcy, obiecujemy.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ======== FOOTER ======== -->
+  <footer class="footer">
+    <div class="footer-tape" aria-hidden="true"></div>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="assets/logo.svg" alt="MarioBud" height="48">
+        <p>Konkretne budownictwo od 2008 roku.</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h5>Usługi</h5>
+          <ul>
+            <li><a href="#uslugi">Fundamenty</a></li>
+            <li><a href="#uslugi">Domy pod klucz</a></li>
+            <li><a href="#uslugi">Gładzie maszynowe</a></li>
+            <li><a href="#uslugi">Stany surowe</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Firma</h5>
+          <ul>
+            <li><a href="#realizacje">Realizacje</a></li>
+            <li><a href="#proces">Proces</a></li>
+            <li><a href="#mapa">Gdzie pracujemy</a></li>
+            <li><a href="#kontakt">Kontakt</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Kontakt</h5>
+          <ul>
+            <li>+48 600 000 000</li>
+            <li>biuro@mariobud.pl</li>
+            <li>ul. Cementowa 1<br>00-000 Warszawa</li>
+            <li><small>NIP: 000-000-00-00</small></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 MarioBud. Wszystkie prawa zastrzeżone.</span>
+      <span class="footer-egg">🛠️ Strona zbudowana ręcznie przez kumpla. Niespodzianka, Mariusz.</span>
+    </div>
+  </footer>
+
+  <!-- libs -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+
+  <!-- own -->
+  <script src="js/main.js"></script>
+  <script src="js/scroll.js"></script>
+  <script src="js/counters.js"></script>
+  <script src="js/easter-eggs.js"></script>
+</body>
+</html>

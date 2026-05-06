@@ -1,0 +1,16 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MarioBud monogram">
+  <defs>
+    <linearGradient id="mb-roof" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1A1D24"/>
+      <stop offset="100%" stop-color="#2C3140"/>
+    </linearGradient>
+  </defs>
+  <g class="mb-mark">
+    <path class="mb-roof" d="M 6 44 L 50 6 L 94 44" stroke="url(#mb-roof)" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+    <rect class="mb-pillar mb-pillar-left" x="14" y="44" width="11" height="42" fill="#1A1D24" rx="1.5"/>
+    <rect class="mb-pillar mb-pillar-mid" x="44.5" y="22" width="11" height="64" fill="#1A1D24" rx="1.5"/>
+    <rect class="mb-pillar mb-pillar-right" x="75" y="44" width="11" height="42" fill="#1A1D24" rx="1.5"/>
+    <rect class="mb-foundation" x="6" y="88" width="88" height="6" fill="#FFD23F" rx="1"/>
+    <circle class="mb-dot" cx="50" cy="35" r="2.6" fill="#FFD23F"/>
+  </g>
+</svg>
