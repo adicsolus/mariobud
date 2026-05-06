@@ -1,10 +1,47 @@
 /* =========================================================
    MarioBud — main.js
-   Inicjalizacja: smooth scroll, nav, magnetic CTA, parallax, swap-word, tilt, mapa
+   SVG inliner, smooth scroll, nav, magnetic CTA, parallax, swap-word, tilt, mapa
    ========================================================= */
 
 (function () {
   'use strict';
+
+  // -------- SVG inliner: ładuje pliki SVG i wkłada je bezpośrednio do DOM --------
+  // Dzięki temu GSAP/JS ma natychmiastowy dostęp do warstw bez problemów contentDocument.
+  async function inlineSvg(host) {
+    const url = host.getAttribute('data-src');
+    if (!url) return;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const text = await res.text();
+      host.innerHTML = text;
+      const svg = host.querySelector('svg');
+      if (svg) {
+        svg.setAttribute('width', '100%');
+        svg.setAttribute('height', '100%');
+        svg.style.maxWidth = '100%';
+        svg.style.maxHeight = '100%';
+        svg.style.display = 'block';
+      }
+    } catch (e) {
+      console.warn('[MarioBud] inlineSvg failed for', url, e);
+    }
+  }
+
+  async function inlineAllSvgs() {
+    const hosts = document.querySelectorAll('[data-src]');
+    await Promise.all([...hosts].map(inlineSvg));
+    window.dispatchEvent(new CustomEvent('mariobud:svgs-ready'));
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+  }
+
+  // odpal inliner najwcześniej
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', inlineAllSvgs);
+  } else {
+    inlineAllSvgs();
+  }
 
   // -------- Smooth scroll (Lenis) --------
   let lenis = null;
@@ -19,7 +56,6 @@
     requestAnimationFrame(raf);
     window.__lenis = lenis;
 
-    // Spinka z GSAP ScrollTrigger
     if (window.gsap && window.ScrollTrigger) {
       lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add((t) => lenis.raf(t * 1000));
@@ -49,7 +85,6 @@
     });
   }
 
-  // smooth scroll na linki anchor (gdy Lenis aktywny)
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', (e) => {
       const id = a.getAttribute('href');
@@ -100,34 +135,23 @@
       toggled = true;
       el.style.transition = 'opacity 0.15s';
       el.style.opacity = '0';
-      setTimeout(() => {
-        el.textContent = swap;
-        el.style.opacity = '1';
-      }, 150);
+      setTimeout(() => { el.textContent = swap; el.style.opacity = '1'; }, 150);
     });
     el.addEventListener('mouseleave', () => {
       if (!toggled) return;
       el.style.opacity = '0';
-      setTimeout(() => {
-        el.textContent = original;
-        el.style.opacity = '1';
-        toggled = false;
-      }, 150);
+      setTimeout(() => { el.textContent = original; el.style.opacity = '1'; toggled = false; }, 150);
     });
   });
 
   // -------- Vanilla tilt na karty galerii --------
   if (window.VanillaTilt) {
     VanillaTilt.init(document.querySelectorAll('[data-tilt]'), {
-      max: 6,
-      speed: 600,
-      glare: true,
-      'max-glare': 0.18,
-      perspective: 1200,
+      max: 6, speed: 600, glare: true, 'max-glare': 0.18, perspective: 1200,
     });
   }
 
-  // -------- Reveal on scroll (IntersectionObserver) --------
+  // -------- Reveal on scroll --------
   const revealEls = document.querySelectorAll(
     '.services-head, .process-head, .gallery-head, .map-head, .reviews-head, .stat, .t-step, .g-card'
   );
@@ -147,54 +171,47 @@
   revealEls.forEach(el => io.observe(el));
 
   // -------- Mapa Polski: tooltipy + animacja pinów --------
-  const mapObj = document.getElementById('poland-map');
-  const tooltip = document.getElementById('map-tooltip');
-
   function setupMap() {
-    if (!mapObj || !tooltip) return;
-    const doc = mapObj.contentDocument;
-    if (!doc) return;
-    const pins = doc.querySelectorAll('.map-pin');
-    const wrap = mapObj.parentElement;
+    const mapHost = document.getElementById('poland-map');
+    const tooltip = document.getElementById('map-tooltip');
+    if (!mapHost || !tooltip) return;
+    const pins = mapHost.querySelectorAll('.map-pin');
+    if (!pins.length) return;
+    const wrap = mapHost.parentElement;
 
-    // animacja stagger pojawiania się pinów
-    pins.forEach((pin, i) => {
+    pins.forEach((pin) => {
+      const original = pin.getAttribute('transform') || '';
       pin.style.opacity = '0';
-      pin.style.transform = pin.getAttribute('transform') + ' translate(0,-20px)';
+      pin.style.transformBox = 'fill-box';
+      pin.style.transformOrigin = 'center bottom';
     });
 
     const mapIO = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           pins.forEach((pin, i) => {
-            const original = pin.getAttribute('transform');
             setTimeout(() => {
-              pin.style.transition = 'opacity 0.5s ease, transform 0.6s cubic-bezier(.22,.61,.36,1)';
+              pin.style.transition = 'opacity 0.5s ease';
               pin.style.opacity = '1';
-              pin.style.transform = original;
             }, i * 110);
           });
           mapIO.unobserve(entry.target);
         }
       });
     }, { threshold: 0.3 });
-    mapIO.observe(mapObj);
+    mapIO.observe(mapHost);
 
-    // tooltipy
     pins.forEach(pin => {
-      pin.addEventListener('mouseenter', (e) => {
-        const city = pin.dataset.city || '';
-        const tip = pin.dataset.tip || '';
+      pin.style.cursor = 'pointer';
+      pin.addEventListener('mouseenter', () => {
+        const city = pin.getAttribute('data-city') || '';
+        const tip = pin.getAttribute('data-tip') || '';
         tooltip.querySelector('strong').textContent = city;
         tooltip.querySelector('span').textContent = tip;
         tooltip.classList.add('show');
       });
-      pin.addEventListener('mousemove', (e) => {
-        // pozycja pinu w ramach SVG → przekładamy na koordynaty wrapa
-        const svgEl = mapObj;
-        const rect = svgEl.getBoundingClientRect();
+      pin.addEventListener('mousemove', () => {
         const wrapRect = wrap.getBoundingClientRect();
-        // używamy bbox pinu w SVG
         const bbox = pin.getBoundingClientRect();
         const x = bbox.left + bbox.width / 2 - wrapRect.left;
         const y = bbox.top - wrapRect.top - 8;
@@ -206,15 +223,9 @@
       });
     });
   }
-  if (mapObj) {
-    if (mapObj.contentDocument && mapObj.contentDocument.readyState === 'complete') {
-      setupMap();
-    } else {
-      mapObj.addEventListener('load', setupMap);
-    }
-  }
+  window.addEventListener('mariobud:svgs-ready', setupMap);
 
-  // -------- Floating-label fix (input wymagają placeholder) --------
+  // -------- Floating-label fix --------
   document.querySelectorAll('.field input, .field textarea').forEach(el => {
     if (!el.hasAttribute('placeholder')) el.setAttribute('placeholder', ' ');
   });
