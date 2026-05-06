@@ -158,7 +158,7 @@
 
   // -------- Reveal on scroll --------
   const revealEls = document.querySelectorAll(
-    '.services-head, .process-head, .gallery-head, .map-head, .reviews-head, .stat, .t-step, .g-card'
+    '.services-head, .process-head, .gallery-head, .map-head, .reviews-head, .stat, .t-step, .g-card, .service-card, .service-end'
   );
   revealEls.forEach((el, i) => {
     el.classList.add('reveal');
@@ -172,8 +172,27 @@
         io.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.18, rootMargin: '0px 0px -10% 0px' });
-  revealEls.forEach(el => io.observe(el));
+  }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+  revealEls.forEach(el => {
+    io.observe(el);
+    // jeśli element JEST już w viewport przy bootcie (np. user reload'uje
+    // w środku strony), nie czekaj na IO — od razu dodaj .in
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight * 0.95 && r.bottom > 0) el.classList.add('in');
+  });
+
+  // Bezpiecznik: po pełnym window.load wszystko co jeszcze nie ma .in,
+  // ale jest w viewport, dostaje .in. Ostatnia szansa, żeby nic nie zostało
+  // niewidoczne (np. jeśli IO miałby pecha z timing'iem).
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      revealEls.forEach(el => {
+        if (el.classList.contains('in')) return;
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('in');
+      });
+    }, 600);
+  });
 
   // -------- Mapa Polski: tooltipy + animacja pinów --------
   function setupMap() {

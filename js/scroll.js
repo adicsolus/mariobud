@@ -131,25 +131,8 @@
     setTimeout(() => ScrollTrigger.refresh(), 100);
   }
 
-  // ---- Services: bez pin'a — reveal kart przy wjeżdżaniu w viewport ----
-  function initServicesReveal() {
-    const cards = document.querySelectorAll('.service-card, .service-end');
-    if (!cards.length) return;
-    cards.forEach((card, i) => {
-      gsap.from(card, {
-        opacity: 0,
-        y: 60,
-        duration: 0.8,
-        ease: 'power2.out',
-        delay: (i % 3) * 0.1,
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 85%',
-          toggleActions: 'play none none none',
-        }
-      });
-    });
-  }
+  // ---- Services: bez pin'a, bez gsap.from — IntersectionObserver z main.js ----
+  // pokrywa to przez .reveal/.in (patrz main.js revealEls)
 
   // ---- Timeline progress + active steps ----
   function initTimeline() {
@@ -178,7 +161,6 @@
 
   function bootAll() {
     initBuildSequence();
-    initServicesReveal();
     initTimeline();
   }
 
