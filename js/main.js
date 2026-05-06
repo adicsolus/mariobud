@@ -36,6 +36,26 @@
     if (window.ScrollTrigger) ScrollTrigger.refresh();
   }
 
+  // Każdy <img> który dopiero się załaduje pcha layout, więc po każdym
+  // ScrollTrigger musi przeliczyć pozycje pin'ów / triggerów.
+  function refreshOnImageLoads() {
+    if (!window.ScrollTrigger) return;
+    const imgs = document.querySelectorAll('img');
+    let pending = 0;
+    imgs.forEach(img => {
+      if (img.complete) return;
+      pending++;
+      img.addEventListener('load', () => { ScrollTrigger.refresh(); }, { once: true });
+      img.addEventListener('error', () => { ScrollTrigger.refresh(); }, { once: true });
+    });
+    // jeszcze raz po pełnym window load (czcionki, late requests)
+    window.addEventListener('load', () => {
+      setTimeout(() => ScrollTrigger.refresh(), 200);
+      setTimeout(() => ScrollTrigger.refresh(), 800);
+    });
+  }
+  refreshOnImageLoads();
+
   // odpal inliner najwcześniej
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', inlineAllSvgs);
@@ -43,27 +63,8 @@
     inlineAllSvgs();
   }
 
-  // -------- Smooth scroll (Lenis) --------
-  let lenis = null;
-  if (window.Lenis) {
-    lenis = new Lenis({
-      duration: 0.9,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      smoothTouch: false,
-      wheelMultiplier: 1.15,
-      touchMultiplier: 1.5,
-    });
-    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-    requestAnimationFrame(raf);
-    window.__lenis = lenis;
-
-    if (window.gsap && window.ScrollTrigger) {
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((t) => lenis.raf(t * 1000));
-      gsap.ticker.lagSmoothing(0);
-    }
-  }
+  // Smooth scroll: używamy natywnego (Safari/Chrome są superpłynne).
+  // CSS html { scroll-behavior: smooth } robi resztę dla anchor links.
 
   // -------- Nav: scrolled state + mobile burger --------
   const nav = document.getElementById('nav');
@@ -99,11 +100,8 @@
       const target = document.querySelector(id);
       if (!target) return;
       e.preventDefault();
-      if (lenis) {
-        lenis.scrollTo(target, { offset: -60, duration: 1.2 });
-      } else {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      const top = target.getBoundingClientRect().top + window.scrollY - 60;
+      window.scrollTo({ top, behavior: 'smooth' });
     });
   });
 

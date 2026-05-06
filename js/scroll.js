@@ -81,8 +81,8 @@
       scrollTrigger: {
         trigger: buildSection,
         start: 'top top',
-        end: '+=180%',
-        scrub: 0.4,
+        end: '+=150%',
+        scrub: 0.5,
         pin: true,
         pinSpacing: true,
         pinType: 'transform',
@@ -128,35 +128,26 @@
       .to(q('.layer-porch-light'), { opacity: 1, duration: 0.5 }, 5.1)
       .to(q('.layer-smoke'), { opacity: 1, duration: 0.6 }, 5.3);
 
-    // Końcówka: tło sekcji fade'uje z cement do graphite, żeby przejście do services było seamless
-    tl.to(buildSection, { backgroundColor: '#1A1D24', duration: 0.6 }, 5.4);
-
     setTimeout(() => ScrollTrigger.refresh(), 100);
   }
 
-  // ---- Services horizontal ----
-  function initServicesHorizontal() {
-    const servicesSection = document.querySelector('.services');
-    const track = document.getElementById('services-track');
-    if (!servicesSection || !track) return;
-    if (!window.matchMedia('(min-width: 980px)').matches) return;
-    const scrollDistance = track.scrollWidth - window.innerWidth + 80;
-    if (scrollDistance <= 0) return;
-    // krótszy pin: użytkownik scrolluje 1.2x dystansu poziomego (mniej "uwięziony")
-    gsap.to(track, {
-      x: -scrollDistance,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: servicesSection,
-        start: 'top top',
-        end: '+=' + Math.round(scrollDistance * 1.0),
-        scrub: 0.4,
-        pin: true,
-        pinType: 'transform',
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        fastScrollEnd: true,
-      }
+  // ---- Services: bez pin'a — reveal kart przy wjeżdżaniu w viewport ----
+  function initServicesReveal() {
+    const cards = document.querySelectorAll('.service-card, .service-end');
+    if (!cards.length) return;
+    cards.forEach((card, i) => {
+      gsap.from(card, {
+        opacity: 0,
+        y: 60,
+        duration: 0.8,
+        ease: 'power2.out',
+        delay: (i % 3) * 0.1,
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        }
+      });
     });
   }
 
@@ -187,7 +178,7 @@
 
   function bootAll() {
     initBuildSequence();
-    initServicesHorizontal();
+    initServicesReveal();
     initTimeline();
   }
 

@@ -417,7 +417,7 @@ em { font-style: normal; color: var(--c-orange); }
 .services {
   background: var(--c-graphite);
   color: var(--c-cement);
-  padding: 6rem 0 0;
+  padding: 6rem 0 6rem;
   overflow: hidden;
   position: relative;
 }
@@ -443,14 +443,15 @@ em { font-style: normal; color: var(--c-orange); }
 .services-head .lead { color: rgba(241,237,228,0.65); }
 
 .services-track {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
-  padding: 2rem var(--pad) 6rem;
-  width: max-content;
+  padding: 2rem var(--pad) 0;
+  max-width: var(--max);
+  margin: 0 auto;
 }
 .service-card {
-  width: 380px;
-  flex-shrink: 0;
+  width: auto;
   background: var(--c-cement);
   color: var(--c-graphite);
   border-radius: var(--radius);
@@ -510,11 +511,13 @@ em { font-style: normal; color: var(--c-orange); }
   color: var(--c-graphite); letter-spacing: -0.01em;
 }
 .service-end {
-  width: 380px; flex-shrink: 0;
-  display: flex; flex-direction: column;
+  grid-column: 1 / -1;
+  display: flex; flex-direction: row;
   align-items: center; justify-content: center;
-  gap: 1rem; text-align: center;
+  gap: 1.5rem; text-align: center;
   padding: 2rem;
+  border-top: 1px dashed rgba(255,255,255,0.12);
+  margin-top: 1rem;
 }
 .service-end p { font-size: 1.4rem; font-family: var(--font-display); font-weight: 800; }
 
@@ -912,18 +915,9 @@ em { font-style: normal; color: var(--c-orange); }
   .build-steps { padding: 0 var(--pad); }
   .pin-hint { display: none; }
 
-  /* services — natywny scroll-snap zamiast pinowania */
-  .services-track {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: 1.5rem var(--pad) 4rem;
-    width: 100%;
-  }
-  .services-track::-webkit-scrollbar { display: none; }
-  .service-card,
-  .service-end { scroll-snap-align: start; }
+  /* services na mobile: 1 kolumna */
+  .services-track { grid-template-columns: 1fr; gap: 1.5rem; }
+  .service-end { flex-direction: column; gap: 0.8rem; }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 240px; }
   .g-wide { grid-column: span 2; }
