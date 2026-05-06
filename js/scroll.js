@@ -13,6 +13,29 @@
   gsap.registerPlugin(ScrollTrigger);
 
   let initialized = false;
+  const isDesktop = () => window.matchMedia('(min-width: 980px)').matches;
+
+  // Pokazuje gotowy dom (wszystkie warstwy widoczne, koparka schowana).
+  // Używane na mobile zamiast pinned animation.
+  function renderHouseFinal(svg) {
+    const showAll = [
+      '.layer-excavation', '.layer-foundation',
+      '.brick-row', '.wall-edge-left', '.wall-edge-right',
+      '.layer-roof', '.layer-attic-window', '.layer-chimney',
+      '.layer-door', '.window', '.layer-smoke', '.layer-porch-light'
+    ];
+    showAll.forEach(sel => {
+      svg.querySelectorAll(sel).forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+    });
+    const exc = svg.querySelector('.layer-excavator');
+    if (exc) exc.style.opacity = '0';
+    svg.querySelectorAll('.window rect[fill*="window-glow"], .layer-attic-window polygon[fill*="window-glow"]').forEach(el => {
+      el.style.opacity = '1';
+    });
+  }
 
   function initBuildSequence() {
     if (initialized) return;
@@ -25,6 +48,14 @@
     if (!svg) return;
     if (!svg.querySelector('.layer-roof')) return;
     initialized = true;
+
+    // MOBILE: brak pin'a, dom od razu gotowy + wszystkie kroki "active"
+    if (!isDesktop()) {
+      renderHouseFinal(svg);
+      stepEls.forEach(li => li.classList.add('active'));
+      if (progressEl) progressEl.style.width = '100%';
+      return;
+    }
 
     const q = (sel) => svg.querySelector(sel);
     const qa = (sel) => svg.querySelectorAll(sel);
