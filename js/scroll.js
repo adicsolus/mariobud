@@ -48,8 +48,8 @@
       scrollTrigger: {
         trigger: buildSection,
         start: 'top top',
-        end: '+=300%',
-        scrub: 0.6,
+        end: '+=180%',
+        scrub: 0.4,
         pin: true,
         pinSpacing: true,
         anticipatePin: 1,
@@ -104,14 +104,15 @@
     if (!window.matchMedia('(min-width: 980px)').matches) return;
     const scrollDistance = track.scrollWidth - window.innerWidth + 80;
     if (scrollDistance <= 0) return;
+    // krótszy pin: użytkownik scrolluje 1.2x dystansu poziomego (mniej "uwięziony")
     gsap.to(track, {
       x: -scrollDistance,
       ease: 'none',
       scrollTrigger: {
         trigger: servicesSection,
         start: 'top top',
-        end: '+=' + scrollDistance,
-        scrub: 0.8,
+        end: '+=' + Math.round(scrollDistance * 1.0),
+        scrub: 0.4,
         pin: true,
         anticipatePin: 1,
         invalidateOnRefresh: true,

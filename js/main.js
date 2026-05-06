@@ -47,10 +47,12 @@
   let lenis = null;
   if (window.Lenis) {
     lenis = new Lenis({
-      duration: 1.05,
+      duration: 0.9,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       smoothTouch: false,
+      wheelMultiplier: 1.15,
+      touchMultiplier: 1.5,
     });
     function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
@@ -68,9 +70,14 @@
   const burger = document.querySelector('.nav-burger');
   const navLinks = document.querySelector('.nav-links');
 
+  const progressFill = document.querySelector('.scroll-progress-fill');
   const onScroll = () => {
-    if (!nav) return;
-    nav.classList.toggle('scrolled', window.scrollY > 24);
+    if (nav) nav.classList.toggle('scrolled', window.scrollY > 24);
+    if (progressFill) {
+      const max = (document.documentElement.scrollHeight - window.innerHeight) || 1;
+      const pct = Math.min(100, Math.max(0, (window.scrollY / max) * 100));
+      progressFill.style.width = pct + '%';
+    }
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();

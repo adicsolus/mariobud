@@ -43,6 +43,39 @@ ul { list-style: none; padding: 0; margin: 0; }
 
 ::selection { background: var(--c-yellow); color: var(--c-graphite); }
 
+/* ============== GLOBAL SCROLL PROGRESS ============== */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(26,29,36,0.06);
+  z-index: 200;
+  pointer-events: none;
+}
+.scroll-progress-fill {
+  display: block;
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--c-yellow), var(--c-orange));
+  transition: width 0.1s linear;
+}
+
+/* ============== PIN HINT ============== */
+.pin-hint {
+  margin-top: 1.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-mute);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: pin-hint-bounce 2.4s ease-in-out infinite;
+}
+@keyframes pin-hint-bounce {
+  0%,100% { transform: translateY(0); opacity: 0.7; }
+  50%     { transform: translateY(3px); opacity: 1; }
+}
+
 h1, h2, h3, h4, h5 {
   font-family: var(--font-display);
   font-weight: 900;
