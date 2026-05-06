@@ -11,6 +11,8 @@
     return;
   }
   gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });
+  ScrollTrigger.defaults({ pinType: 'transform' });
 
   let initialized = false;
   const isDesktop = () => window.matchMedia('(min-width: 980px)').matches;
@@ -83,8 +85,10 @@
         scrub: 0.4,
         pin: true,
         pinSpacing: true,
+        pinType: 'transform',
         anticipatePin: 1,
         invalidateOnRefresh: true,
+        fastScrollEnd: true,
         onUpdate: (self) => {
           if (progressEl) progressEl.style.width = (self.progress * 100) + '%';
           const idx = Math.min(3, Math.floor(self.progress * 4));
@@ -124,6 +128,9 @@
       .to(q('.layer-porch-light'), { opacity: 1, duration: 0.5 }, 5.1)
       .to(q('.layer-smoke'), { opacity: 1, duration: 0.6 }, 5.3);
 
+    // Końcówka: tło sekcji fade'uje z cement do graphite, żeby przejście do services było seamless
+    tl.to(buildSection, { backgroundColor: '#1A1D24', duration: 0.6 }, 5.4);
+
     setTimeout(() => ScrollTrigger.refresh(), 100);
   }
 
@@ -145,8 +152,10 @@
         end: '+=' + Math.round(scrollDistance * 1.0),
         scrub: 0.4,
         pin: true,
+        pinType: 'transform',
         anticipatePin: 1,
         invalidateOnRefresh: true,
+        fastScrollEnd: true,
       }
     });
   }
