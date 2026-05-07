@@ -328,18 +328,14 @@ em { font-style: normal; color: var(--c-orange); }
 .hero-scroll svg { animation: bounce-down 2s infinite; }
 
 /* ============== BUILD SEQUENCE ============== */
-/* Architektura: sekcja .build ma duży height (np. 280vh), wewnątrz .build-pin
-   jest CSS-stickyfikowany na top:0 → przykleja się natywnie podczas scrollowania.
-   GSAP NIE pinuje (żadnego konfliktu ze scroll-engine), tylko scrub'uje progres
-   animacji domu na bazie pozycji w sekcji. */
+/* GSAP pin (pinType: transform) trzyma .build-pin przez czas animacji.
+   pinSpacing: true → ScrollTrigger sam wstawia spacer, brak "kilometra beżu". */
 .build {
   background: var(--c-cement);
   position: relative;
-  height: 280vh;
 }
 .build-pin {
-  position: sticky;
-  top: 0;
+  position: relative;
   height: 100vh;
   display: grid;
   grid-template-columns: 1.4fr 1fr;
@@ -355,8 +351,6 @@ em { font-style: normal; color: var(--c-orange); }
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--c-cement);
-  z-index: 2;
 }
 .build-svg {
   width: 100%;
@@ -380,29 +374,34 @@ em { font-style: normal; color: var(--c-orange); }
 .build-steps li {
   position: relative;
   padding-left: 4rem;
-  opacity: 0.35;
-  transition: opacity 0.5s var(--easing), transform 0.5s var(--easing);
+  opacity: 0.32;
+  transition: opacity 0.4s var(--easing), transform 0.4s var(--easing);
   transform: translateX(8px);
 }
-.build-steps li.active { opacity: 1; transform: translateX(0); }
+.build-steps li.active {
+  opacity: 1;
+  transform: translateX(0);
+}
 .build-steps li::before {
   counter-increment: step;
   content: counter(step, decimal-leading-zero);
   position: absolute; left: 0; top: 0.1rem;
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: 1.6rem;
+  background: rgba(26,29,36,0.08);
   color: var(--c-graphite);
-  background: var(--c-yellow);
   width: 3rem; height: 3rem;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 0.95rem;
   letter-spacing: 0.02em;
+  transition: background 0.3s, color 0.3s, transform 0.3s var(--easing);
 }
 .build-steps li.active::before {
   background: var(--c-graphite);
   color: var(--c-yellow);
+  transform: scale(1.08);
+  box-shadow: 0 8px 24px -8px rgba(26,29,36,0.5);
 }
 .build-steps h3 { margin-bottom: 0.3rem; font-size: 1.5rem; }
 .build-steps p { color: var(--c-mute); margin: 0; }
@@ -426,7 +425,7 @@ em { font-style: normal; color: var(--c-orange); }
 .services {
   background: var(--c-graphite);
   color: var(--c-cement);
-  padding: 6rem 0 6rem;
+  padding: 0;
   overflow: hidden;
   position: relative;
 }
@@ -444,7 +443,7 @@ em { font-style: normal; color: var(--c-orange); }
 }
 .services-head {
   max-width: var(--max); margin: 0 auto;
-  padding: 0 var(--pad) 3rem;
+  padding: 6rem var(--pad) 3rem;
 }
 .services-head .kicker { color: var(--c-yellow); }
 .services-head .kicker::before { background: var(--c-yellow); }
@@ -452,15 +451,15 @@ em { font-style: normal; color: var(--c-orange); }
 .services-head .lead { color: rgba(241,237,228,0.65); }
 
 .services-track {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   gap: 2rem;
-  padding: 2rem var(--pad) 0;
-  max-width: var(--max);
-  margin: 0 auto;
+  padding: 2rem var(--pad) 6rem;
+  width: max-content;
+  align-items: stretch;
 }
 .service-card {
-  width: auto;
+  width: 360px;
+  flex-shrink: 0;
   background: var(--c-cement);
   color: var(--c-graphite);
   border-radius: var(--radius);
@@ -520,13 +519,12 @@ em { font-style: normal; color: var(--c-orange); }
   color: var(--c-graphite); letter-spacing: -0.01em;
 }
 .service-end {
-  grid-column: 1 / -1;
-  display: flex; flex-direction: row;
+  width: 360px;
+  flex-shrink: 0;
+  display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  gap: 1.5rem; text-align: center;
+  gap: 1rem; text-align: center;
   padding: 2rem;
-  border-top: 1px dashed rgba(255,255,255,0.12);
-  margin-top: 1rem;
 }
 .service-end p { font-size: 1.4rem; font-family: var(--font-display); font-weight: 800; }
 
@@ -909,32 +907,43 @@ em { font-style: normal; color: var(--c-orange); }
 
 /* ============== RESPONSIVE ============== */
 @media (max-width: 980px) {
-  /* Mobile build sequence: sticky stage pod navbar, więcej miejsca na scroll,
-     większy stage żeby dom był wyraźny. svh/dvh zamiast vh — chowanie się
-     toolbar Safari nie wywołuje skoków layoutu. */
-  .build { height: 260svh; }
+  /* BUILD na mobile: pin jak na desktop (GSAP pinType: transform), ale układ
+     w jednej kolumnie — stage na górze, kroki pod. Stage trzyma 50svh,
+     kroki dostają mniej miejsca + tighter spacing. */
   .build-pin {
-    position: static;
     grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
     gap: 1rem;
-    padding: 5rem 0 2rem;
-    height: auto;
+    padding: 5rem var(--pad) 1.5rem;
+    height: 100svh;
+    align-content: start;
   }
   .build-stage {
-    position: sticky;
-    top: 64px;
-    height: 60svh;
-    min-height: 320px;
+    height: 50svh;
+    min-height: 280px;
     width: 100%;
-    margin-bottom: 2rem;
-    padding: 0 var(--pad);
+    margin: 0;
   }
-  .build-steps { padding: 0 var(--pad); }
+  .build-steps { padding: 0; }
+  .build-steps ol { gap: 0.6rem; }
+  .build-steps li { padding-left: 3.4rem; }
+  .build-steps li::before { width: 2.6rem; height: 2.6rem; font-size: 0.85rem; }
+  .build-steps h3 { font-size: 1.1rem; margin-bottom: 0.1rem; }
+  .build-steps p { font-size: 0.88rem; line-height: 1.35; }
   .pin-hint { display: none; }
 
-  /* services na mobile: 1 kolumna */
-  .services-track { grid-template-columns: 1fr; gap: 1.5rem; }
-  .service-end { flex-direction: column; gap: 0.8rem; }
+  /* SERVICES na mobile: 1 kolumna pionowo (bez horizontal pin'a) */
+  .services-head { padding-top: 4rem; padding-bottom: 2rem; }
+  .services::before { display: none; }
+  .services-track {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: auto;
+    gap: 1.2rem;
+    padding: 1rem var(--pad) 4rem;
+  }
+  .service-card { width: auto; }
+  .service-end { width: auto; padding: 1rem; }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 240px; }
   .g-wide { grid-column: span 2; }
