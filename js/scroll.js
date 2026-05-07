@@ -15,29 +15,6 @@
   ScrollTrigger.defaults({ pinType: 'transform' });
 
   let initialized = false;
-  const isDesktop = () => window.matchMedia('(min-width: 980px)').matches;
-
-  // Pokazuje gotowy dom (wszystkie warstwy widoczne, koparka schowana).
-  // Używane na mobile zamiast pinned animation.
-  function renderHouseFinal(svg) {
-    const showAll = [
-      '.layer-excavation', '.layer-foundation',
-      '.brick-row', '.wall-edge-left', '.wall-edge-right',
-      '.layer-roof', '.layer-attic-window', '.layer-chimney',
-      '.layer-door', '.window', '.layer-smoke', '.layer-porch-light'
-    ];
-    showAll.forEach(sel => {
-      svg.querySelectorAll(sel).forEach(el => {
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-      });
-    });
-    const exc = svg.querySelector('.layer-excavator');
-    if (exc) exc.style.opacity = '0';
-    svg.querySelectorAll('.window rect[fill*="window-glow"], .layer-attic-window polygon[fill*="window-glow"]').forEach(el => {
-      el.style.opacity = '1';
-    });
-  }
 
   function initBuildSequence() {
     if (initialized) return;
@@ -50,14 +27,6 @@
     if (!svg) return;
     if (!svg.querySelector('.layer-roof')) return;
     initialized = true;
-
-    // MOBILE: brak pin'a, dom od razu gotowy + wszystkie kroki "active"
-    if (!isDesktop()) {
-      renderHouseFinal(svg);
-      stepEls.forEach(li => li.classList.add('active'));
-      if (progressEl) progressEl.style.width = '100%';
-      return;
-    }
 
     const q = (sel) => svg.querySelector(sel);
     const qa = (sel) => svg.querySelectorAll(sel);
@@ -77,18 +46,16 @@
     const exc = q('.layer-excavator');
     if (exc) gsap.set(exc, { x: 0, opacity: 1 });
 
+    // Bez pin'a — sekcja .build ma height 280vh (220vh na mobile),
+    // .build-pin jest CSS-sticky → trigger od 'top top' (kiedy sticky się przykleja)
+    // do 'bottom bottom' (kiedy sekcja kończy się i sticky się odkleja).
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: buildSection,
         start: 'top top',
-        end: '+=150%',
+        end: 'bottom bottom',
         scrub: 0.5,
-        pin: true,
-        pinSpacing: true,
-        pinType: 'transform',
-        anticipatePin: 1,
         invalidateOnRefresh: true,
-        fastScrollEnd: true,
         onUpdate: (self) => {
           if (progressEl) progressEl.style.width = (self.progress * 100) + '%';
           const idx = Math.min(3, Math.floor(self.progress * 4));

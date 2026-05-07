@@ -328,11 +328,18 @@ em { font-style: normal; color: var(--c-orange); }
 .hero-scroll svg { animation: bounce-down 2s infinite; }
 
 /* ============== BUILD SEQUENCE ============== */
+/* Architektura: sekcja .build ma duży height (np. 280vh), wewnątrz .build-pin
+   jest CSS-stickyfikowany na top:0 → przykleja się natywnie podczas scrollowania.
+   GSAP NIE pinuje (żadnego konfliktu ze scroll-engine), tylko scrub'uje progres
+   animacji domu na bazie pozycji w sekcji. */
 .build {
   background: var(--c-cement);
   position: relative;
+  height: 280vh;
 }
 .build-pin {
+  position: sticky;
+  top: 0;
   height: 100vh;
   display: grid;
   grid-template-columns: 1.4fr 1fr;
@@ -348,6 +355,8 @@ em { font-style: normal; color: var(--c-orange); }
   display: flex;
   align-items: center;
   justify-content: center;
+  background: var(--c-cement);
+  z-index: 2;
 }
 .build-svg {
   width: 100%;
@@ -900,15 +909,21 @@ em { font-style: normal; color: var(--c-orange); }
 
 /* ============== RESPONSIVE ============== */
 @media (max-width: 980px) {
+  /* Mobile build sequence: dom dalej się buduje, ale prościej — sekcja
+     ma 220vh, build-stage jest sticky pod navem (top:70px), build-steps
+     pod nim w normalnym flow. Animacja sterowana scroll-progressem. */
+  .build { height: 220vh; }
   .build-pin {
+    position: static;
     grid-template-columns: 1fr;
-    gap: 0;
+    gap: 1rem;
     padding: 4rem 0 2rem;
     height: auto;
   }
   .build-stage {
-    height: auto;
-    aspect-ratio: 12 / 7;
+    position: sticky;
+    top: 70px;
+    height: 50vh;
     width: 100%;
     margin-bottom: 2rem;
   }
