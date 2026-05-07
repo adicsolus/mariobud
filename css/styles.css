@@ -909,23 +909,25 @@ em { font-style: normal; color: var(--c-orange); }
 
 /* ============== RESPONSIVE ============== */
 @media (max-width: 980px) {
-  /* Mobile build sequence: dom dalej się buduje, ale prościej — sekcja
-     ma 220vh, build-stage jest sticky pod navem (top:70px), build-steps
-     pod nim w normalnym flow. Animacja sterowana scroll-progressem. */
-  .build { height: 220vh; }
+  /* Mobile build sequence: sticky stage pod navbar, więcej miejsca na scroll,
+     większy stage żeby dom był wyraźny. svh/dvh zamiast vh — chowanie się
+     toolbar Safari nie wywołuje skoków layoutu. */
+  .build { height: 260svh; }
   .build-pin {
     position: static;
     grid-template-columns: 1fr;
     gap: 1rem;
-    padding: 4rem 0 2rem;
+    padding: 5rem 0 2rem;
     height: auto;
   }
   .build-stage {
     position: sticky;
-    top: 70px;
-    height: 50vh;
+    top: 64px;
+    height: 60svh;
+    min-height: 320px;
     width: 100%;
     margin-bottom: 2rem;
+    padding: 0 var(--pad);
   }
   .build-steps { padding: 0 var(--pad); }
   .pin-hint { display: none; }
